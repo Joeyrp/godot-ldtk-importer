@@ -7,10 +7,10 @@ path="res://.godot/imported/example_gridvania.ldtk-2c2bfddda6d6598db19492e019e8a
 
 [deps]
 
-files=["res://examples/gridvania/tilesets/tileset16x16.res"]
+files=["res://examples/gridvania/tilesets/tileset16x16.res", "res://examples/gridvania/tilesets/tileset64x64.res"]
 
 source_file="res://examples/gridvania/example_gridvania.ldtk"
-dest_files=["res://.godot/imported/example_gridvania.ldtk-2c2bfddda6d6598db19492e019e8ae49.scn", "res://examples/gridvania/tilesets/tileset16x16.res"]
+dest_files=["res://.godot/imported/example_gridvania.ldtk-2c2bfddda6d6598db19492e019e8ae49.scn", "res://examples/gridvania/tilesets/tileset16x16.res", "res://examples/gridvania/tilesets/tileset64x64.res"]
 
 [params]
 
