@@ -27,6 +27,7 @@ static func create_layers(
 				layer_nodes.push_front(layer)
 
 			"Tiles", "AutoLayer":
+				# print("LAYER INSTANCE: %s" % layer_instance)
 				var layer = create_tile_layer(layer_instance, layer_def)
 				layer_nodes.push_front(layer)
 
@@ -182,12 +183,20 @@ static func __place_tiles(
 		return
 
 	var tile_size := Vector2(tile_source.texture_region_size)
+	# print("TILE SIZE: %s" % tile_size)
 
 	# Place tiles
 	for tile in tiles:
 		var cell_px := Vector2(tile.px[0], tile.px[1])
 		var tile_px := Vector2(tile.src[0], tile.src[1])
-		var cell_grid := TileUtil.px_to_grid(cell_px, grid_size, Vector2i.ZERO)
+
+		# HACK: The grid_size argument here was replaced with tile_size and this 
+		#		seems to fix an offset error with the placement of the larger 
+		#		auto-tile tiles but it	seems like a very hacky solution and I'm 
+		#		not confident that this won't break other stuff....
+		var cell_grid := TileUtil.px_to_grid(cell_px, tile_size, Vector2i.ZERO)
+		###
+
 		var tile_grid := TileUtil.px_to_grid(tile_px, tile_size, tile_source.margins, tile_source.separation)
 
 		# Tile does not exist

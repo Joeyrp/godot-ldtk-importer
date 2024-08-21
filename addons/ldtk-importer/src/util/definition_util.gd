@@ -22,7 +22,8 @@ static func resolve_layer_definitions(layer_defs: Array) -> Dictionary:
 			"offset": Vector2i(layer_def.pxOffsetX, layer_def.pxOffsetY),
 			"parallax": Vector2(layer_def.parallaxFactorX, layer_def.parallaxFactorY),
 			"parallaxScaling": layer_def.parallaxScaling,
-			"intGridValues": layer_def.intGridValues
+			"intGridValues": layer_def.intGridValues,
+			"tilesetDefUid": layer_def.tilesetDefUid
 		}
 
 	return resolved_layer_defs
@@ -58,7 +59,7 @@ static func resolve_tileset_definitions(tileset_defs: Array) -> Dictionary:
 
 	for tileset_def in tileset_defs:
 		resolved_tileset_defs[tileset_def.uid] = {
-			"uid": tileset_def.uid,
+			"uid": int(tileset_def.uid),
 			"identifier": tileset_def.identifier,
 			"relPath": tileset_def.relPath,
 			"gridSize": tileset_def.tileGridSize,

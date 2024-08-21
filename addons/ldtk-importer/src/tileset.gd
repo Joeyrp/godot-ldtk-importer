@@ -14,16 +14,18 @@ static func build_tilesets(
 	# Create Tileset for each unique grid size
 	var tileset_def_uids = definitions.tilesets.keys()
 
+	# print("BUILD TILESETS!!!!!!!!!!!!!!!!!!!!!!!!!")
 	var tilesets = tileset_def_uids.reduce(
 		func(accum: Dictionary, current: float):
 			var tileset_def: Dictionary = definitions.tilesets[current]
+			var uid = tileset_def.uid
 			var grid_size: int = tileset_def.gridSize
-			if not accum.has(grid_size):
-				accum[grid_size] = get_tileset(grid_size, base_dir)
+			if not accum.has(uid):
+				accum[uid] = get_tileset(uid, grid_size, base_dir)
 
 			var source: TileSetSource = create_tileset_source(
 					tileset_def,
-					accum[grid_size],
+					accum[uid],
 					base_dir
 			)
 
@@ -46,9 +48,10 @@ static func build_tilesets(
 			var layer_def = definitions.layers[current]
 			if layer_def.type == "IntGrid" and layer_def.intGridValues.size() > 0:
 				var grid_size: int = layer_def.gridSize
-				if not accum.has(grid_size):
-					accum[grid_size] = get_tileset(grid_size, base_dir)
-				create_intgrid_source(layer_def, accum[grid_size])
+				var tileset_uid = layer_def.tilesetDefUid
+				if not accum.has(tileset_uid):
+					accum[tileset_uid] = get_tileset(tileset_uid, grid_size, base_dir)
+				create_intgrid_source(layer_def, accum[tileset_uid])
 			return accum
 	, tilesets)
 
@@ -65,11 +68,16 @@ static func build_tilesets(
 	return save_tilesets(tilesets, base_dir)
 
 static func get_tileset(
+		tile_set_uid: int,
 		tile_size: int,
 		base_dir: String
 ) -> TileSet:
 
-	var tileset_name := "tileset" + str(tile_size) + "x" + str(tile_size)
+	if tile_set_uid < 0:
+		push_error("Invalid tile set uid (%s) in get_tileset" % tile_set_uid)
+		return
+
+	var tileset_name := "tileset_" + str(tile_set_uid)
 	var path := base_dir + "tilesets/" + tileset_name + ".res"
 
 	if not (Util.options.force_tileset_reimport):
